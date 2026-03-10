@@ -262,13 +262,18 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
+* is a volunteer coordinator who oversees manpower requirements of recurring events
+* manages contacts of 20 to 500 volunteers
+* works alone instead of in a team
+* prefers desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
+* values data privacy
+* may perform duties in locations without an Internet connection
+* dislikes slow, repetitive tasks (e.g., editing tags of contacts one at a time)
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: enables volunteer coordinators to manage contacts and recurring-event manpower faster than typical mouse/GUI-driven workflows.
 
 
 ### User stories
@@ -288,16 +293,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `RosterBolt` and the **Actor** is the `user`, unless specified otherwise)
 
 **Use case: Delete a person**
 
 **MSS**
 
 1.  User requests to list persons
-2.  AddressBook shows a list of persons
+2.  RosterBolt shows a list of persons
 3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+4.  RosterBolt deletes the person
 
     Use case ends.
 
@@ -309,7 +314,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+   * 3a1. RosterBolt shows an error message.
 
       Use case resumes at step 2.
 
