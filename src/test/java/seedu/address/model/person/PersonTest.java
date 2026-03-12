@@ -12,6 +12,8 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
+import java.util.Collections;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.testutil.PersonBuilder;
@@ -31,6 +33,14 @@ public class PersonTest {
         Person person = new PersonBuilder().withRole(VALID_ROLE_BOB).withNotes(VALID_NOTES_BOB).build();
         assertEquals(new Role(VALID_ROLE_BOB), person.getRole());
         assertEquals(new Notes(VALID_NOTES_BOB), person.getNotes());
+    }
+
+    @Test
+    public void constructor_withoutRoleAndNotes_defaultsToEmptyValues() {
+        Person person = new Person(new Name("Amy Bee"), new Phone("85355255"), new Email("amy@example.com"),
+                new Address("123 Jurong West"), Collections.emptySet());
+        assertEquals(Person.EMPTY_ROLE, person.getRole());
+        assertEquals(Person.EMPTY_NOTES, person.getNotes());
     }
 
     @Test
@@ -114,5 +124,11 @@ public class PersonTest {
                 + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", role=" + ALICE.getRole()
                 + ", notes=" + ALICE.getNotes() + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
+    }
+
+    @Test
+    public void hashCode_sameValues_sameHashCode() {
+        Person aliceCopy = new PersonBuilder(ALICE).build();
+        assertEquals(ALICE.hashCode(), aliceCopy.hashCode());
     }
 }
