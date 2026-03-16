@@ -8,6 +8,7 @@ import seedu.address.commons.util.ToStringBuilder;
 
 /**
  * Tests that a {@code Person}'s fields match any of the keywords given.
+ * Fields include name, phone, email, address, role, notes, and tags.
  */
 public class PersonContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
