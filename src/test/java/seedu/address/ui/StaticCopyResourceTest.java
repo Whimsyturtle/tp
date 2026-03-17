@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.MainApp;
 
+/**
+ * Reuse testing code from Codex.
+ */
 public class StaticCopyResourceTest {
 
     private static final String MAIN_WINDOW_FXML = "/view/MainWindow.fxml";
