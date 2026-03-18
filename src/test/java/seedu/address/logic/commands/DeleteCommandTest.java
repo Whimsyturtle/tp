@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.List;
@@ -113,6 +114,38 @@ public class DeleteCommandTest {
 
         // ensures that model state is unchanged after failed command
         assertEquals(model, expectedModel);
+    }
+
+    @Test
+    public void execute_invalidIndexListEmptyFilteredList_throwsCommandException() {
+        model.updateFilteredPersonList(p -> false);
+
+        DeleteCommand deleteCommand = new DeleteCommand(List.of(INDEX_FIRST_PERSON));
+        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_validIndexListFilteredListNonContiguous_success() {
+        model.updateFilteredPersonList(person -> person.getName().fullName.equals("Alice Pauline")
+                || person.getName().fullName.equals("Fiona Kunz")
+                || person.getName().fullName.equals("George Best"));
+        assertEquals(3, model.getFilteredPersonList().size());
+
+        Person firstPersonToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person secondPersonToRemain = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
+        Person thirdPersonToDelete = model.getFilteredPersonList().get(INDEX_THIRD_PERSON.getZeroBased());
+
+        DeleteCommand deleteCommand = new DeleteCommand(List.of(INDEX_FIRST_PERSON, INDEX_THIRD_PERSON));
+
+        String expectedMessage = DeleteCommand.buildSuccessMessage(List.of(firstPersonToDelete, thirdPersonToDelete));
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedModel.updateFilteredPersonList(model.getFilteredPersonList()::contains);
+        expectedModel.deletePerson(firstPersonToDelete);
+        expectedModel.deletePerson(thirdPersonToDelete);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+        assertEquals(List.of(secondPersonToRemain), model.getFilteredPersonList());
     }
 
     @Test
