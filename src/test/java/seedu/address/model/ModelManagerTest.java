@@ -7,6 +7,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPersons.CARL;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,9 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.predicates.PersonContainsKeywordsPredicate;
-import seedu.address.model.person.Person;
 import seedu.address.testutil.AddressBookBuilder;
-import seedu.address.testutil.PersonBuilder;
 
 public class ModelManagerTest {
 
@@ -107,14 +106,9 @@ public class ModelManagerTest {
         modelManager.updateFilteredPersonList(new PersonContainsKeywordsPredicate(
                 Arrays.asList("Alice")));
 
-        Person newPerson = new PersonBuilder().withName("Zack Lim")
-                .withPhone("90909090")
-                .withEmail("zack@example.com")
-                .withAddress("1 Sunset Way")
-                .build();
-        modelManager.addPerson(newPerson);
+        modelManager.addPerson(CARL);
 
-        assertEquals(Arrays.asList(ALICE, BENSON, newPerson), modelManager.getFilteredPersonList());
+        assertEquals(Arrays.asList(ALICE, BENSON, CARL), modelManager.getFilteredPersonList());
     }
 
     @Test
