@@ -43,6 +43,10 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label notes;
     @FXML
+    private Label availability;
+    @FXML
+    private Label records;
+    @FXML
     private FlowPane tags;
 
     /**
@@ -58,8 +62,32 @@ public class PersonCard extends UiPart<Region> {
         email.setText(person.getEmail().value);
         role.setText(person.getRole().value);
         notes.setText(person.getNotes().value);
+        availability.setText(formatAvailabilities(person));
+        records.setText(formatRecords(person));
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+    }
+
+    private static String formatAvailabilities(Person person) {
+        if (person.getAvailabilities().isEmpty()) {
+            return "Availability: -";
+        }
+        return "Availability: " + person.getAvailabilities().stream()
+                .sorted(Comparator.comparing(a -> a.dayOfWeek.toString() + a.startTime + a.endTime))
+                .map(Object::toString)
+                .reduce((left, right) -> left + " | " + right)
+                .orElse("-");
+    }
+
+    private static String formatRecords(Person person) {
+        if (person.getRecords().isEmpty()) {
+            return "Records: -";
+        }
+        return "Records: " + person.getRecords().stream()
+                .sorted(Comparator.comparing(r -> r.startDateTime.toString() + r.endDateTime))
+                .map(Object::toString)
+                .reduce((left, right) -> left + " | " + right)
+                .orElse("-");
     }
 }
