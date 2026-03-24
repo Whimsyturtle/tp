@@ -124,7 +124,7 @@ Format: `find [m/MATCH_TYPE] KEYWORD [MORE_KEYWORDS]`
 * The search covers all fields: name, phone, email, address, role, notes, and tags.
 * `m/kw` matches full words only. e.g. `Han` will not match `Hans`
 * `m/ss` matches substrings. e.g. `Han` will match `Hans`
-* `m/fz` matches words within a Levenshtein distance of 2. e.g. `michigan` will match `michegan`
+* `m/fz` allows small spelling mistakes. Words that are up to 2 simple edits away (in terms of adding, removing, or changing a letter) can still match. e.g. `michigan` will match `michegan`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 * `MATCH_TYPE` is optional. When omitted, keyword matching is used.

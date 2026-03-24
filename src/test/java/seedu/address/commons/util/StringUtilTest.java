@@ -62,13 +62,13 @@ public class StringUtilTest {
     @Test
     public void containsWordIgnoreCase_emptyWord_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, "Word parameter cannot be empty", ()
-            -> StringUtil.containsWordIgnoreCase("typical sentence", "  "));
+                -> StringUtil.containsWordIgnoreCase("typical sentence", "  "));
     }
 
     @Test
     public void containsWordIgnoreCase_multipleWords_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, "Word parameter should be a single word", ()
-            -> StringUtil.containsWordIgnoreCase("typical sentence", "aaa BBB"));
+                -> StringUtil.containsWordIgnoreCase("typical sentence", "aaa BBB"));
     }
 
     @Test
@@ -186,19 +186,19 @@ public class StringUtilTest {
     @Test
     public void containsFuzzyWordIgnoreCase_nullWord_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> StringUtil.containsFuzzyWordIgnoreCase("typical sentence",
-            null, 1));
+                null, 1));
     }
 
     @Test
     public void containsFuzzyWordIgnoreCase_emptyWord_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, "Word parameter cannot be empty", ()
-            -> StringUtil.containsFuzzyWordIgnoreCase("typical sentence", "  ", 1));
+                -> StringUtil.containsFuzzyWordIgnoreCase("typical sentence", "  ", 1));
     }
 
     @Test
     public void containsFuzzyWordIgnoreCase_multipleWords_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, "Word parameter should be a single word", ()
-            -> StringUtil.containsFuzzyWordIgnoreCase("typical sentence", "aaa BBB", 1));
+                -> StringUtil.containsFuzzyWordIgnoreCase("typical sentence", "aaa BBB", 1));
     }
 
     @Test
@@ -257,7 +257,7 @@ public class StringUtilTest {
     @Test
     public void getDetails_exceptionGiven() {
         assertTrue(StringUtil.getDetails(new FileNotFoundException("file not found"))
-            .contains("java.io.FileNotFoundException: file not found"));
+                .contains("java.io.FileNotFoundException: file not found"));
     }
 
     @Test
