@@ -3,10 +3,12 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_AVAILABILITY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NOTES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RECORD;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -42,6 +44,10 @@ public class CommandTestUtil {
     public static final String VALID_ROLE_BOB = "Medic";
     public static final String VALID_NOTES_AMY = "Available on weekdays";
     public static final String VALID_NOTES_BOB = "Prefers outdoor events";
+    public static final String VALID_AVAILABILITY_AMY = "MONDAY,09:00,12:00";
+    public static final String VALID_AVAILABILITY_BOB = "TUESDAY,14:00,17:00";
+    public static final String VALID_RECORD_AMY = "2026-03-20T09:00,2026-03-20T12:00";
+    public static final String VALID_RECORD_BOB = "2026-03-21T14:00,2026-03-21T17:00";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -57,6 +63,10 @@ public class CommandTestUtil {
     public static final String ROLE_DESC_BOB = " " + PREFIX_ROLE + VALID_ROLE_BOB;
     public static final String NOTES_DESC_AMY = " " + PREFIX_NOTES + VALID_NOTES_AMY;
     public static final String NOTES_DESC_BOB = " " + PREFIX_NOTES + VALID_NOTES_BOB;
+    public static final String AVAILABILITY_DESC_AMY = " " + PREFIX_AVAILABILITY + VALID_AVAILABILITY_AMY;
+    public static final String AVAILABILITY_DESC_BOB = " " + PREFIX_AVAILABILITY + VALID_AVAILABILITY_BOB;
+    public static final String RECORD_DESC_AMY = " " + PREFIX_RECORD + VALID_RECORD_AMY;
+    public static final String RECORD_DESC_BOB = " " + PREFIX_RECORD + VALID_RECORD_BOB;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
@@ -73,9 +83,13 @@ public class CommandTestUtil {
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
+                .withAvailabilities(VALID_AVAILABILITY_AMY)
+                .withRecords(VALID_RECORD_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
+                .withAvailabilities(VALID_AVAILABILITY_BOB)
+                .withRecords(VALID_RECORD_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
     }
 

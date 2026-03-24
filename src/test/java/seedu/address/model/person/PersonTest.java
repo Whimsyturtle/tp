@@ -14,6 +14,9 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +30,7 @@ public class PersonTest {
     @Test
     public void unmodifiableSets_modifySet_throwsUnsupportedOperationException() {
         Person person = new PersonBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> person.getTags().clear());
         assertThrows(UnsupportedOperationException.class, () -> person.getAvailabilities().remove(null));
         assertThrows(UnsupportedOperationException.class, () -> person.getRecords().remove(null));
     }
@@ -157,14 +160,16 @@ public class PersonTest {
 
         // different availabilities -> returns false
         editedAlice = new PersonBuilder(ALICE)
-                .withAvailabilities(new VolunteerAvailability(java.time.DayOfWeek.MONDAY,
-                java.time.LocalTime.NOON, java.time.LocalTime.MIDNIGHT)).build();
+                .withAvailabilities(new VolunteerAvailability(DayOfWeek.MONDAY, LocalTime.of(12, 0),
+                        LocalTime.of(13, 0)))
+                .build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different records -> returns false
         editedAlice = new PersonBuilder(ALICE)
-                .withRecords(new VolunteerRecord(java.time.LocalDateTime.now(),
-                java.time.LocalDateTime.now().plusHours(1))).build();
+                .withRecords(new VolunteerRecord(LocalDateTime.of(2026, 3, 20, 9, 0),
+                        LocalDateTime.of(2026, 3, 20, 12, 0)))
+                .build();
         assertFalse(ALICE.equals(editedAlice));
     }
 

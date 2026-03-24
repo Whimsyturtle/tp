@@ -18,6 +18,14 @@ public class VolunteerRecordTest {
     }
 
     @Test
+    public void constructor_startNotBeforeEnd_throwsIllegalArgumentException() {
+        LocalDateTime timestamp = LocalDateTime.of(2026, 3, 20, 14, 0);
+        LocalDateTime timestampPlusOne = timestamp.plusHours(1);
+        assertThrows(IllegalArgumentException.class, () -> new VolunteerRecord(timestamp, timestamp));
+        assertThrows(IllegalArgumentException.class, () -> new VolunteerRecord(timestampPlusOne, timestamp));
+    }
+
+    @Test
     public void equals() {
         LocalDateTime start1 = LocalDateTime.of(2026, 3, 20, 14, 0);
         LocalDateTime end1 = LocalDateTime.of(2026, 3, 20, 16, 0);
@@ -67,5 +75,16 @@ public class VolunteerRecordTest {
         VolunteerRecord record = new VolunteerRecord(start, end);
 
         assertEquals("2026-03-20 14:05 to 2026-03-20 16:30", record.toString());
+    }
+
+    @Test
+    public void parsingHelpers() {
+        assertTrue(VolunteerRecord.isValidRecord("2026-03-20T14:00,2026-03-20T16:00"));
+        assertFalse(VolunteerRecord.isValidRecord("2026-03-20 14:00,2026-03-20 16:00"));
+        assertFalse(VolunteerRecord.isValidRecord("2026-03-20T16:00,2026-03-20T14:00"));
+
+        VolunteerRecord parsed = VolunteerRecord.fromString("2026-03-20T14:00,2026-03-20T16:00");
+        assertEquals(new VolunteerRecord(LocalDateTime.of(2026, 3, 20, 14, 0),
+                LocalDateTime.of(2026, 3, 20, 16, 0)), parsed);
     }
 }

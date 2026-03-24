@@ -14,12 +14,23 @@ public class VolunteerAvailabilityTest {
 
     @Test
     public void constructor_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () ->
-                new VolunteerAvailability(null, LocalTime.NOON, LocalTime.MIDNIGHT));
-        assertThrows(NullPointerException.class, () ->
-                new VolunteerAvailability(DayOfWeek.MONDAY, null, LocalTime.MIDNIGHT));
-        assertThrows(NullPointerException.class, () ->
-                new VolunteerAvailability(DayOfWeek.MONDAY, LocalTime.NOON, null));
+        DayOfWeek monday = DayOfWeek.MONDAY;
+        LocalTime noon = LocalTime.NOON;
+        LocalTime midnight = LocalTime.MIDNIGHT;
+
+        assertThrows(NullPointerException.class, () -> new VolunteerAvailability(null, noon, midnight));
+        assertThrows(NullPointerException.class, () -> new VolunteerAvailability(monday, null, midnight));
+        assertThrows(NullPointerException.class, () -> new VolunteerAvailability(monday, noon, null));
+    }
+
+    @Test
+    public void constructor_startNotBeforeEnd_throwsIllegalArgumentException() {
+        DayOfWeek monday = DayOfWeek.MONDAY;
+        LocalTime twoPm = LocalTime.of(14, 0);
+        LocalTime threePm = LocalTime.of(15, 0);
+
+        assertThrows(IllegalArgumentException.class, () -> new VolunteerAvailability(monday, twoPm, twoPm));
+        assertThrows(IllegalArgumentException.class, () -> new VolunteerAvailability(monday, threePm, twoPm));
     }
 
     @Test
@@ -72,5 +83,16 @@ public class VolunteerAvailabilityTest {
         VolunteerAvailability availability1 =
                 new VolunteerAvailability(DayOfWeek.MONDAY, LocalTime.of(14, 0), LocalTime.of(16, 0));
         assertEquals("MONDAY 14:00 to 16:00", availability1.toString());
+    }
+
+    @Test
+    public void parsingHelpers() {
+        assertTrue(VolunteerAvailability.isValidAvailability("MONDAY,14:00,16:00"));
+        assertFalse(VolunteerAvailability.isValidAvailability("MONDAY,16:00,14:00"));
+        assertFalse(VolunteerAvailability.isValidAvailability("MONDAY 14:00 16:00"));
+
+        VolunteerAvailability parsed = VolunteerAvailability.fromString("MONDAY,14:00,16:00");
+        assertEquals(new VolunteerAvailability(DayOfWeek.MONDAY, LocalTime.of(14, 0), LocalTime.of(16, 0)),
+                parsed);
     }
 }
