@@ -11,6 +11,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -176,6 +177,26 @@ public class AddCommandTest {
 
         @Override
         public void setAddressBookFilePath(Path addressBookFilePath) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Map<String, String> getCommandAliases() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasCommandAlias(String shortName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setCommandAlias(String shortName, String template) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeCommandAlias(String shortName) {
             throw new AssertionError("This method should not be called.");
         }
 
