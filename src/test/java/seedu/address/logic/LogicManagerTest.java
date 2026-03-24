@@ -8,11 +8,15 @@ import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.AMY;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +24,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -45,6 +50,10 @@ public class LogicManagerTest {
 
     @BeforeEach
     public void setUp() {
+        resetLogic();
+    }
+
+    private void resetLogic() {
         JsonAddressBookStorage addressBookStorage =
                 new JsonAddressBookStorage(temporaryFolder.resolve("rosterbolt.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
@@ -68,6 +77,35 @@ public class LogicManagerTest {
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
         assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+    }
+
+    @Test
+    public void execute_aliasExpandedCommand_success() throws Exception {
+        model.setCommandAlias("ls", ListCommand.COMMAND_WORD);
+        assertCommandSuccess("ls", ListCommand.MESSAGE_SUCCESS, model);
+    }
+
+    @Test
+    public void execute_aliasExpandedCommandWithArguments_success() throws Exception {
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        model.setCommandAlias("rm", DeleteCommand.COMMAND_WORD);
+        resetLogic();
+
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedModel.setCommandAlias("rm", DeleteCommand.COMMAND_WORD);
+        expectedModel.deletePerson(ALICE);
+
+        assertCommandSuccess("rm 1", DeleteCommand.buildSuccessMessage(List.of(ALICE)), expectedModel);
+    }
+
+    @Test
+    public void execute_validCommand_savesUserPrefs() throws Exception {
+        model.setCommandAlias("ls", ListCommand.COMMAND_WORD);
+
+        assertCommandSuccess(ListCommand.COMMAND_WORD, ListCommand.MESSAGE_SUCCESS, model);
+
+        UserPrefs readBack = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json")).readUserPrefs().get();
+        assertEquals(Map.of("ls", ListCommand.COMMAND_WORD), readBack.getCommandAliases());
     }
 
     @Test
@@ -123,7 +161,7 @@ public class LogicManagerTest {
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
             String expectedMessage) {
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getAddressBook(), model.getUserPrefs());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
 
