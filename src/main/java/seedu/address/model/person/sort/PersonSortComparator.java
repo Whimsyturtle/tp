@@ -3,9 +3,9 @@ package seedu.address.model.person.sort;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
 
 /**
@@ -73,7 +73,10 @@ public class PersonSortComparator implements Comparator<Person> {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(attribute, order);
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("attribute", attribute)
+                .add("order", order)
+                .toString();
     }
 }

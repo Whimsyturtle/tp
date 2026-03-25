@@ -3,8 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-import java.util.Objects;
-
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.Model;
 import seedu.address.model.person.sort.PersonSortComparator;
 import seedu.address.model.person.sort.SortAttribute;
@@ -74,7 +73,10 @@ public class ListCommand extends Command {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(sortAttribute, sortOrder);
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("sortAttribute", sortAttribute)
+                .add("sortOrder", sortOrder)
+                .toString();
     }
 }

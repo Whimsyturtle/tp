@@ -49,11 +49,11 @@ public class PersonSortComparatorTest {
     }
 
     @Test
-    public void hashCode_sameValues_returnsSameHashCode() {
-        PersonSortComparator first = new PersonSortComparator(SortAttribute.EMAIL, SortOrder.ASC);
-        PersonSortComparator second = new PersonSortComparator(SortAttribute.EMAIL, SortOrder.ASC);
-
-        assertEquals(first.hashCode(), second.hashCode());
+    public void toStringMethod() {
+        PersonSortComparator comparator = new PersonSortComparator(SortAttribute.EMAIL, SortOrder.ASC);
+        String expected = PersonSortComparator.class.getCanonicalName() + "{attribute=" + SortAttribute.EMAIL
+                + ", order=" + SortOrder.ASC + "}";
+        assertEquals(expected, comparator.toString());
     }
 
     @Test

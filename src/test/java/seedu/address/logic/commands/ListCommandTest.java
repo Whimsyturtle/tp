@@ -107,6 +107,14 @@ public class ListCommandTest {
         assertFalse(listByNameAsc.equals(listByEmailAsc));
     }
 
+    @Test
+    public void toStringMethod() {
+        ListCommand listCommand = new ListCommand(SortAttribute.NAME, SortOrder.DESC);
+        String expected = ListCommand.class.getCanonicalName() + "{sortAttribute=" + SortAttribute.NAME
+                + ", sortOrder=" + SortOrder.DESC + "}";
+        assertEquals(expected, listCommand.toString());
+    }
+
     private List<Person> sortedTypicalPersons(SortAttribute attribute, SortOrder order) {
         return sortedPersons(getTypicalPersons(), attribute, order);
     }
