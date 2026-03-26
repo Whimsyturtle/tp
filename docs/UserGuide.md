@@ -107,6 +107,39 @@ Examples:
 * `list name`
 * `list email desc`
 
+### Creating a command alias : `alias`
+
+Creates a custom alias for a built-in command or command template.
+
+Format: `alias SHORT TEMPLATE`
+
+* `SHORT` must be a lowercase command-word-style token.
+* The first word of `TEMPLATE` must be an existing built-in command word.
+* Any later words in `TEMPLATE` become default arguments for that command.
+* Alias expansion replaces only the leading command word and appends the rest of the user input unchanged.
+* Any built-in command can be aliased, including meta commands such as `alias`, `unalias`, `aliases`, and `clear`.
+* Aliases are treated as workflow preferences rather than roster data, so they are persisted in the user preferences file (default: `preferences.json`).
+
+Examples:
+* `alias ls list`
+* `alias rm delete`
+* `alias wipe clear`
+* `alias ss find m/ss meie`
+
+### Listing command aliases : `aliases`
+
+Lists all defined command aliases.
+
+Format: `aliases`
+
+### Removing a command alias : `unalias`
+
+Removes an existing command alias.
+
+Format: `unalias SHORT`
+
+Examples:
+* `unalias ls`
 ### Showing recycle bin of recently deleted persons : `bin`
 
 Shows the recycle bin, which contains all recently deleted persons in RosterBolt.
@@ -235,7 +268,10 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​ [r/ROLE] [nt/NOTES] [va/AVAILABILITIES]…​ [vr/RECORDS]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague r/Usher nt/Available weekends va/FRIDAY,19:00,21:00 vr/2026-03-20T14:00,2026-03-20T17:00`
+**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​ [r/ROLE] [nt/NOTES]` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague r/Usher nt/Available weekends`
+**Alias** | `alias SHORT TEMPLATE`<br> e.g., `alias ls list`
+**Aliases** | `aliases`
+**Unalias** | `unalias SHORT`<br> e.g., `unalias ls`
 **Bin** | `bin`
 **Clear** | `clear`
 **Delete** | `delete INDEX [MORE_INDICES]`<br> e.g., `delete 2 3`

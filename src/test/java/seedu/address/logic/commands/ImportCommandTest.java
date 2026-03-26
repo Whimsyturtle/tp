@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -123,6 +124,28 @@ public class ImportCommandTest {
 
         @Override
         public void setAddressBookFilePath(Path addressBookFilePath) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public Map<String, String> getCommandAliases() {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
+        public boolean hasCommandAlias(String shortName) {
+            fail("This method should not be called.");
+            return false;
+        }
+
+        @Override
+        public void setCommandAlias(String shortName, String template) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void removeCommandAlias(String shortName) {
             fail("This method should not be called.");
         }
 

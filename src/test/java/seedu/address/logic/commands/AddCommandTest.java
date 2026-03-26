@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,10 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
+
+/**
+ * Reused from Codex suggestions upon providing specifications
+ */
 
 public class AddCommandTest {
 
@@ -177,6 +182,26 @@ public class AddCommandTest {
 
         @Override
         public void setAddressBookFilePath(Path addressBookFilePath) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Map<String, String> getCommandAliases() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasCommandAlias(String shortName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setCommandAlias(String shortName, String template) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeCommandAlias(String shortName) {
             throw new AssertionError("This method should not be called.");
         }
 

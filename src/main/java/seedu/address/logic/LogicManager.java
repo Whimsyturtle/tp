@@ -16,6 +16,7 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -87,11 +88,13 @@ public class LogicManager implements Logic {
     }
 
     private CommandResult executeNormalCommand(String commandText) throws CommandException, ParseException {
-        Command command = addressBookParser.parseCommand(commandText);
+        String expandedCommandText = expandAlias(commandText);
+        Command command = addressBookParser.parseCommand(expandedCommandText);
         CommandResult commandResult = command.execute(model);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
+            storage.saveUserPrefs(model.getUserPrefs());
         } catch (AccessDeniedException e) {
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
@@ -125,5 +128,20 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
+    }
+
+    private String expandAlias(String commandText) {
+        return ParserUtil.parseCommandComponents(commandText)
+                .map(commandComponents -> expandAlias(commandText, commandComponents))
+                .orElse(commandText);
+    }
+
+    private String expandAlias(String commandText, ParserUtil.CommandComponents commandComponents) {
+        String aliasTemplate = model.getCommandAliases().get(commandComponents.getCommandWord());
+        if (aliasTemplate == null) {
+            return commandText;
+        }
+
+        return aliasTemplate + commandComponents.getArguments();
     }
 }

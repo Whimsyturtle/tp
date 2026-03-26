@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -80,6 +81,29 @@ public class ModelManager implements Model {
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
+    }
+
+    @Override
+    public Map<String, String> getCommandAliases() {
+        return userPrefs.getCommandAliases();
+    }
+
+    @Override
+    public boolean hasCommandAlias(String shortName) {
+        requireNonNull(shortName);
+        return userPrefs.getCommandAliases().containsKey(shortName);
+    }
+
+    @Override
+    public void setCommandAlias(String shortName, String template) {
+        requireAllNonNull(shortName, template);
+        userPrefs.setCommandAlias(shortName, template);
+    }
+
+    @Override
+    public void removeCommandAlias(String shortName) {
+        requireNonNull(shortName);
+        userPrefs.removeCommandAlias(shortName);
     }
 
     //=========== AddressBook ================================================================================

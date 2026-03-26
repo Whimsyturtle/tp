@@ -9,12 +9,16 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AliasCommand;
+import seedu.address.logic.commands.AliasesCommand;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.CommandWords;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
@@ -22,6 +26,7 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.UnaliasCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.predicates.PersonContainsKeywordsPredicate;
@@ -30,6 +35,10 @@ import seedu.address.model.person.sort.SortOrder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
+
+/**
+ * Reused from Codex suggestions upon providing specifications
+ */
 
 public class AddressBookParserTest {
 
@@ -40,6 +49,18 @@ public class AddressBookParserTest {
         Person person = new PersonBuilder().build();
         AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
         assertEquals(new AddCommand(person), command);
+    }
+
+    @Test
+    public void parseCommand_alias() throws Exception {
+        AliasCommand command = (AliasCommand) parser.parseCommand(AliasCommand.COMMAND_WORD + " ls list");
+        assertEquals(new AliasCommand("ls", "list"), command);
+    }
+
+    @Test
+    public void parseCommand_aliases() throws Exception {
+        assertTrue(parser.parseCommand(AliasesCommand.COMMAND_WORD) instanceof AliasesCommand);
+        assertTrue(parser.parseCommand(AliasesCommand.COMMAND_WORD + " ignored") instanceof AliasesCommand);
     }
 
     @Test
@@ -91,6 +112,33 @@ public class AddressBookParserTest {
                 parser.parseCommand(ListCommand.COMMAND_WORD + " name"));
         assertEquals(new ListCommand(SortAttribute.EMAIL, SortOrder.DESC),
                 parser.parseCommand(ListCommand.COMMAND_WORD + " email desc"));
+    }
+
+    @Test
+    public void parseCommand_unalias() throws Exception {
+        UnaliasCommand command = (UnaliasCommand) parser.parseCommand(UnaliasCommand.COMMAND_WORD + " ls");
+        assertEquals(new UnaliasCommand("ls"), command);
+    }
+
+    @Test
+    public void parseCommand_allBuiltInCommandWordsHaveWorkingExamples_success() throws Exception {
+        Map<String, String> commandExamples = Map.ofEntries(
+                Map.entry(AddCommand.COMMAND_WORD, "add n/Amy p/91234567 e/amy@example.com a/123, Clementi Rd"),
+                Map.entry(AliasCommand.COMMAND_WORD, "alias ls list"),
+                Map.entry(AliasesCommand.COMMAND_WORD, "aliases"),
+                Map.entry(ClearCommand.COMMAND_WORD, "clear"),
+                Map.entry(DeleteCommand.COMMAND_WORD, "delete 1"),
+                Map.entry(EditCommand.COMMAND_WORD, "edit 1 n/Amy"),
+                Map.entry(ExitCommand.COMMAND_WORD, "exit"),
+                Map.entry(FindCommand.COMMAND_WORD, "find Amy"),
+                Map.entry(HelpCommand.COMMAND_WORD, "help"),
+                Map.entry(ListCommand.COMMAND_WORD, "list"),
+                Map.entry(UnaliasCommand.COMMAND_WORD, "unalias ls"));
+
+        assertEquals(CommandWords.BUILT_IN_COMMAND_WORDS, commandExamples.keySet());
+        for (String commandExample : commandExamples.values()) {
+            parser.parseCommand(commandExample);
+        }
     }
 
     @Test

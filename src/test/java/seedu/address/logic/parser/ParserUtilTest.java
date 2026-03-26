@@ -65,6 +65,26 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseCommandComponents_blankInput_returnsEmpty() {
+        assertTrue(ParserUtil.parseCommandComponents(" \t ").isEmpty());
+    }
+
+    @Test
+    public void parseCommandComponents_validInput_success() {
+        ParserUtil.CommandComponents commandComponents =
+                ParserUtil.parseCommandComponents("  delete 1 2 ").orElseThrow();
+        assertEquals("delete", commandComponents.getCommandWord());
+        assertEquals(" 1 2", commandComponents.getArguments());
+    }
+
+    @Test
+    public void parseCommandComponents_commandWithoutArguments_success() {
+        ParserUtil.CommandComponents commandComponents = ParserUtil.parseCommandComponents("list").orElseThrow();
+        assertEquals("list", commandComponents.getCommandWord());
+        assertEquals("", commandComponents.getArguments());
+    }
+
+    @Test
     public void parseName_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parseName((String) null));
     }
