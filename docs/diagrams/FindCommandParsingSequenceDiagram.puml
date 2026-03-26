@@ -6,8 +6,6 @@ box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
 participant ":FindCommandParser" as FindCommandParser LOGIC_COLOR
-participant ":ArgumentTokenizer" as ArgumentTokenizer LOGIC_COLOR
-participant "argMultimap:ArgumentMultimap" as ArgumentMultimap LOGIC_COLOR
 participant ":ParserUtil" as ParserUtil LOGIC_COLOR
 participant ":FindMatchType" as FindMatchType LOGIC_COLOR
 participant "p:PersonPredicate" as PersonPredicate LOGIC_COLOR
@@ -24,40 +22,31 @@ create FindCommandParser
 AddressBookParser -> FindCommandParser
 activate FindCommandParser
 
-FindCommandParser -> ArgumentTokenizer : tokenize(" " + args, PREFIX_MATCH_TYPE)
-activate ArgumentTokenizer
-create ArgumentMultimap
-ArgumentTokenizer -> ArgumentMultimap
-deactivate ArgumentTokenizer
-
-FindCommandParser -> ArgumentMultimap : verifyNoDuplicatePrefixesFor(PREFIX_MATCH_TYPE)
-
-FindCommandParser -> FindCommandParser : parseFindArgs(argMultimap)
+FindCommandParser -> FindCommandParser : parseFindArgs()
 activate FindCommandParser
 alt m/ prefix provided
-    FindCommandParser -> ArgumentMultimap : getValue(PREFIX_MATCH_TYPE)
-    FindCommandParser -> ParserUtil : tokenizeSpaceSeparated(matchTypeArgs)
-    FindCommandParser -> FindMatchType : fromToken(matchTypeToken)
+    FindCommandParser -> ParserUtil : tokenizeSpaceSeparated()
+    FindCommandParser -> FindMatchType : fromToken()
     FindMatchType --> FindCommandParser : matchType
-    FindCommandParser -> FindCommandParser : build ParsedFindArgs(matchType, keywords)
+    FindCommandParser -> FindCommandParser : build ParsedFindArgs()
 else m/ prefix not provided
-    FindCommandParser -> ArgumentMultimap : getPreamble()
-    FindCommandParser -> ParserUtil : tokenizeSpaceSeparated(preamble)
-    FindCommandParser -> FindCommandParser : build ParsedFindArgs(KEYWORD, keywords)
+    FindCommandParser -> ParserUtil : tokenizeSpaceSeparated()
+    FindCommandParser -> FindCommandParser : build ParsedFindArgs()
 end
 deactivate FindCommandParser
 
 FindCommandParser -> FindCommandParser : ensure keywords not empty
-FindCommandParser -> FindMatchType : createPredicate(keywords)
+FindCommandParser -> FindMatchType : createPredicate()
 activate FindMatchType
 create PersonPredicate
 FindMatchType -> PersonPredicate
+FindMatchType --> FindCommandParser : p
 deactivate FindMatchType
 
 create FindCommand
 FindCommandParser -> FindCommand
 activate FindCommand
-FindCommand --> FindCommandParser
+FindCommand --> FindCommandParser : f
 deactivate FindCommand
 
 FindCommandParser --> AddressBookParser : f
