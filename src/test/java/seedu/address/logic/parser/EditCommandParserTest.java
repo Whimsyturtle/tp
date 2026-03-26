@@ -8,9 +8,11 @@ import static seedu.address.logic.commands.CommandTestUtil.AVAILABILITY_DESC_BOB
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_AVAILABILITY_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_RECORD_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NOTES_DESC_AMY;
@@ -24,6 +26,8 @@ import static seedu.address.logic.commands.CommandTestUtil.ROLE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_AVAILABILITY_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_AVAILABILITY_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTES_AMY;
@@ -31,6 +35,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_RECORD_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_RECORD_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -117,8 +122,6 @@ public class EditCommandParserTest {
                 VolunteerAvailability.MESSAGE_CONSTRAINTS); // invalid availability
         assertParseFailure(parser, "1" + INVALID_RECORD_DESC, VolunteerRecord.MESSAGE_CONSTRAINTS); // invalid record
 
-        // role and notes accept any value, so they do not have invalid-value parser cases
-
         // invalid phone followed by valid email
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
 
@@ -144,6 +147,7 @@ public class EditCommandParserTest {
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withRole(VALID_ROLE_AMY).withNotes(VALID_NOTES_AMY)
                 .withAvailabilities("MONDAY,09:00,12:00")
+                .withAvailabilities(VALID_AVAILABILITY_AMY)
                 .withRecords(VALID_RECORD_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
@@ -211,13 +215,13 @@ public class EditCommandParserTest {
 
         // availabilities
         userInput = targetIndex.getOneBased() + AVAILABILITY_DESC_BOB;
-        descriptor = new EditPersonDescriptorBuilder().withAvailabilities("TUESDAY,14:00,17:00").build();
+        descriptor = new EditPersonDescriptorBuilder().withAvailabilities(VALID_AVAILABILITY_BOB).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // records
         userInput = targetIndex.getOneBased() + RECORD_DESC_BOB;
-        descriptor = new EditPersonDescriptorBuilder().withRecords("2026-03-21T14:00,2026-03-21T17:00").build();
+        descriptor = new EditPersonDescriptorBuilder().withRecords(VALID_RECORD_BOB).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
