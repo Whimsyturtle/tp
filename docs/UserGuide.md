@@ -278,5 +278,5 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nt/NOTES] [t/TAG]…​ [va/AVAILABILITY]…​ [vr/RECORD]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com va/MONDAY,14:00,17:00`
 **Edit Previous** | `editprev`
 **Find** | `find [m/MATCH_TYPE] KEYWORD [MORE_KEYWORDS]`<br> e.g., `find m/kw James Jake`, `find m/ss ali`, `find m/fz michigan`
-**List** | `list [ATTRIBUTE [asc|desc]]`<br> e.g., `list name desc`
+**List** | `list [ATTRIBUTE [asc｜desc]]`<br> e.g., `list name desc`
 **Help** | `help`
