@@ -10,6 +10,9 @@ public enum StatisticsCategory {
     ROLE("role"),
     RECORD("record");
 
+    public static final String ROLE_TOKEN = ROLE.token;
+    public static final String RECORD_TOKEN = RECORD.token;
+
     private final String token;
 
     StatisticsCategory(String token) {

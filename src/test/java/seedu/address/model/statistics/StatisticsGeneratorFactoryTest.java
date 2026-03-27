@@ -13,6 +13,13 @@ public class StatisticsGeneratorFactoryTest {
     }
 
     @Test
+    public void constructor_defaultFactory_createsGenerators() {
+        StatisticsGeneratorFactory factory = new StatisticsGeneratorFactory();
+        assertTrue(factory.create(StatisticsCategory.ROLE) instanceof RoleStatisticsGenerator);
+        assertTrue(factory.create(StatisticsCategory.RECORD) instanceof RecordStatisticsGenerator);
+    }
+
+    @Test
     public void create_nullCategory_throwsNullPointerException() {
         StatisticsGeneratorFactory factory = new StatisticsGeneratorFactory(new AsciiBarChart(10));
         assertThrows(NullPointerException.class, () -> factory.create(null));
