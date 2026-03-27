@@ -12,12 +12,10 @@ import seedu.address.model.person.predicates.PersonContainsKeywordsPredicate;
 import seedu.address.model.person.predicates.PersonContainsSubstringsPredicate;
 
 public class FindMatchTypeFactoryTest {
-    private final FindMatchTypeFactory findMatchTypeFactory = new FindMatchTypeFactory();
-
     @Test
     public void createPredicate_keywordMatchType_returnsKeywordPredicate() {
         PersonContainsFieldsPredicate predicate =
-                findMatchTypeFactory.createPredicate(FindMatchType.KEYWORD, List.of("alice"));
+                FindMatchTypeFactory.createPredicate(FindMatchType.KEYWORD, List.of("alice"));
 
         assertTrue(PersonContainsKeywordsPredicate.class.isInstance(predicate));
     }
@@ -25,7 +23,7 @@ public class FindMatchTypeFactoryTest {
     @Test
     public void createPredicate_substringMatchType_returnsSubstringPredicate() {
         PersonContainsFieldsPredicate predicate =
-                findMatchTypeFactory.createPredicate(FindMatchType.SUBSTRING, List.of("alice"));
+                FindMatchTypeFactory.createPredicate(FindMatchType.SUBSTRING, List.of("alice"));
 
         assertTrue(PersonContainsSubstringsPredicate.class.isInstance(predicate));
     }
@@ -33,7 +31,7 @@ public class FindMatchTypeFactoryTest {
     @Test
     public void createPredicate_fuzzyMatchType_returnsFuzzyPredicate() {
         PersonContainsFieldsPredicate predicate =
-                findMatchTypeFactory.createPredicate(FindMatchType.FUZZY, List.of("alice"));
+                FindMatchTypeFactory.createPredicate(FindMatchType.FUZZY, List.of("alice"));
 
         assertTrue(PersonContainsFuzzyKeywordsPredicate.class.isInstance(predicate));
     }
